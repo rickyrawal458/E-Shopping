@@ -1,0 +1,65 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+<style>
+
+     .card-body a {
+            color: blue;
+            border: none;
+        }
+
+     .card-body:hover{
+            background-color: blue;
+     }
+
+     .card-body:hover a.text{
+        color: white;
+     }
+
+</style>
+
+
+<div class="container-fluid mt-3">
+    <div class="row">
+
+        <div class="col-lg-3">
+             <h3 class="mb-0 pt-3">Categories</h3>
+            <div id="sidebar" class="pt-4" style="width: 75%;">
+                <div class="card">
+                    <div class="card-body border-bottom ">
+                        <a class="text " style="text-decoration: none; font-size: 1.5em;" href="{% url "shop:product_list" %}">All</a>
+                    </div>
+                    {% for c in categories %}
+                    <div class="card-body border-bottom rounded" >
+                        {% if category.slug == c.slug %}       {% endif %}
+                        <a class="text " href="{{ c.get_absolute_url }}" style="text-decoration: none; font-size: 1.5em;">{{ c.name }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <div id="products" class="col-lg-9" align="center">
+            <h1 class="text text-center">{% if category %}{{ category.name }}{% else %}Products    {% endif %}</h1>
+            <div class="row mx-auto pt-3">
+                {% for product in products %}
+                <div class=" mx-auto mb-5" style="width: 18rem;">
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.image %}{{ product.image.url }}{%else %}{% static "img/no_image.png" %}{% endif %}" width="100%" height="60%">
+                    </a>
+                    <div class="pt-3">
+                         <a href="{{ product.get_absolute_url }}" style="text-decoration: none; font-size: 1.5em;">{{ product.name }}</a><br>
+                        <strong>${{ product.price }}</strong>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

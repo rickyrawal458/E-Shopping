@@ -1,0 +1,71 @@
+{% extends "shop/base.html" %}
+{% block title %}
+Checkout
+{% endblock %}
+{% block content %}
+<style>
+    body {
+          font-family: Arial;
+          font-size: 17px;
+          padding: 8px;
+          overflow-x: hidden;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+         .col-10 {
+          -ms-flex: 10%; /* IE10 */
+          flex: 10%;
+        }
+
+        .container {
+          padding: 3px 10px 13px 10px;
+          border-radius: 3px;
+        }
+        @media (max-width: 800px) {
+          .row {
+            flex-direction: column-reverse;
+          }
+        }
+
+
+</style>
+<div class="row">
+  <div class="col-8">
+    <div class="container">
+
+        <div class="row">
+             <div class="col-3">
+              </div>
+              <div class="col-5">
+                  <h2>Checkout</h2>
+                    <form action="." method="post" class="order-form pt-4" >
+                        <h5>{{form.as_p}}</h5>
+                        <p><input type="submit" value="Place order"></p>
+                        {% csrf_token %}
+                    </form>
+
+              </div>
+        </div>
+    </div>
+  </div>
+  <div class="col-10 pt-4 mb-3">
+    <div class="container" style=" background-color: #cfcccc85; border: 2px solid lightgrey;">
+        <div class="order-info">
+            <h3>Your order</h3>
+            <ul>
+                {% for item in cart %}
+                <li class="ml-4">
+                    {{ item.quantity }}x {{ item.product.name }}
+                    <span style="float: right;">${{ item.total_price }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <p style="text-align:right;">Total: ${{ cart.get_total_price }}</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
